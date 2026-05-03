@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body, #root {
+    height: 100%;
+    overflow: hidden;
+  }
+  body {
+    background-color: #040E1F;
+    color: #F0F6FF;
+    font-family: 'Inter', system-ui, sans-serif;
+    touch-action: manipulation;
+  }
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@layer utilities {
+  /* Botones táctiles — mínimo 64 px de alto */
+  .btn {
+    min-height: 64px;
+    cursor: pointer;
+    transition: transform 0.1s ease, opacity 0.12s ease, box-shadow 0.15s ease;
+    user-select: none;
+  }
+  .btn:active { transform: scale(0.96); opacity: 0.88; }
+
+  /* Pantallas absolutas */
+  .screen {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Scroll sin barra */
+  .scroll {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .scroll::-webkit-scrollbar { display: none; }
+  .scroll { -ms-overflow-style: none; scrollbar-width: none; }
+
+  /* Grilla de fondo sutil */
+  .bg-dots {
+    background-image: radial-gradient(rgba(26,86,219,0.12) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+
+  /* Sombra de tarjeta */
+  .card-glow-blue { box-shadow: 0 0 28px rgba(26,86,219,0.25), 0 8px 28px rgba(0,0,0,0.5); }
+  .card-glow-yellow { box-shadow: 0 0 28px rgba(245,158,11,0.3), 0 8px 28px rgba(0,0,0,0.5); }
+
+  /* Logo blanco sobre fondo oscuro */
+  .logo-white { filter: brightness(0) invert(1); }
+
+  /* Ruleta */
+  .roulette-glow { filter: drop-shadow(0 0 24px rgba(245,158,11,0.45)); }
+}
