@@ -4,90 +4,80 @@
  */
 export const prizes = [
   {
-    id: 'muestra',
-    label: 'Muestra de producto',
-    description: 'Llévate una muestra del adhesivo Continental para tu proceso',
-    icon: '🎁',
+    id: 'kit_mundialista',
+    label: 'Kit mundialista',
+    description: 'Llévate un kit mundialista especial de Continental.',
+    icon: '🏆',
     color: '#1A56DB',
-    instruction: 'Acércate a nuestro equipo en el stand y solicita tu muestra ahora.',
-    crmTag: 'premio_muestra',
+    instruction: 'Acércate a nuestro equipo en el stand para reclamar tu kit.',
+    crmTag: 'premio_kit_mundialista',
+    probability: 5,
   },
   {
-    id: 'asesoria',
-    label: 'Asesoría técnica express',
-    description: 'Sesión personalizada con nuestro experto técnico en el stand',
-    icon: '🔬',
-    color: '#065F46',
-    instruction: 'Un asesor técnico de Continental te atenderá ahora mismo en el stand.',
-    crmTag: 'premio_asesoria',
-  },
-  {
-    id: 'guia',
-    label: 'Guía del portafolio',
-    description: 'Guía comparativa impresa de todas las soluciones Continental para madera',
-    icon: '📖',
+    id: 'kit_carpintero',
+    label: 'Kit Carpintero',
+    description: 'Recibe un kit pensado para acompañarte en el taller.',
+    icon: '🧰',
     color: '#1338A8',
-    instruction: 'Recoge tu guía impresa en el stand. ¡También te la enviamos por correo!',
-    crmTag: 'premio_guia',
+    instruction: 'Presenta esta pantalla al equipo Continental para reclamar tu kit.',
+    crmTag: 'premio_kit_carpintero',
+    probability: 5,
   },
   {
-    id: 'kit',
-    label: 'Kit promocional Continental',
-    description: 'Kit exclusivo de la feria con muestras y artículos de la marca',
+    id: 'balon',
+    label: 'Balón',
+    description: 'Ganaste un balón para disfrutar fuera del taller.',
+    icon: '⚽',
+    color: '#D97706',
+    instruction: 'Acércate a la recepción del stand y muestra este resultado para reclamarlo.',
+    crmTag: 'premio_balon',
+    probability: 20,
+  },
+  {
+    id: 'obsequio_sorpresa',
+    label: 'Obsequio sorpresa Continental',
+    description: 'Recibe un obsequio sorpresa de Continental.',
     icon: '🎒',
     color: '#1A56DB',
-    instruction: 'Pasa a la recepción del stand a recoger tu kit de bienvenida.',
-    crmTag: 'premio_kit',
+    instruction: 'Nuestro equipo te entregará tu obsequio sorpresa en el stand.',
+    crmTag: 'premio_obsequio_sorpresa',
+    probability: 40,
   },
   {
-    id: 'sorteo',
-    label: '¡Participas en el sorteo!',
-    description: 'Quedas inscrito en el sorteo del gran premio al cierre de la feria',
-    icon: '⭐',
-    color: '#D97706',
-    instruction: 'Tu participación ya está registrada. El sorteo se realiza el último día.',
-    crmTag: 'premio_sorteo',
-  },
-  {
-    id: 'bono',
-    label: 'Bono prueba de producto',
-    description: 'Bono especial para la primera compra o prueba de un adhesivo Continental',
-    icon: '💡',
+    id: 'muestra_conti_instantaneo',
+    label: 'Muestra Gratis Conti Instantáneo',
+    description: 'Llévate una muestra gratis de Conti Instantáneo.',
+    icon: '🎁',
     color: '#065F46',
-    instruction: 'Nuestro equipo comercial te contactará para coordinar la prueba.',
-    crmTag: 'premio_bono',
+    instruction: 'Acércate a nuestro equipo en el stand para reclamar tu muestra.',
+    crmTag: 'premio_muestra_conti_instantaneo',
+    probability: 20,
   },
   {
-    id: 'souvenir',
-    label: 'Souvenir de taller',
-    description: 'Artículo útil de Continental exclusivo para visitantes de la feria',
-    icon: '🔨',
+    id: 'sigue_intentando',
+    label: 'Sigue Intentando',
+    description: 'Esta vez no hubo premio, pero gracias por participar con Continental.',
+    icon: '🔁',
     color: '#44403C',
-    instruction: 'Pasa por el stand y escoge tu souvenir. Disponible mientras haya stock.',
-    crmTag: 'premio_souvenir',
-  },
-  {
-    id: 'visita',
-    label: 'Visita técnica gratuita',
-    description: 'Un asesor Continental visitará tu taller o planta de producción',
-    icon: '🏭',
-    color: '#1338A8',
-    instruction: 'Un asesor te contactará en los próximos 5 días para coordinar la visita.',
-    crmTag: 'premio_visita',
+    instruction: 'Puedes acercarte al equipo Continental para conocer nuestras soluciones.',
+    crmTag: 'sin_premio_sigue_intentando',
+    isRetry: true,
+    probability: 10,
   },
 ]
 
 /**
  * Selección pseudo-aleatoria ponderada.
- * Todos los visitantes ganan algo; distribución controlada.
+ * Distribución controlada de premios e intento.
  */
 export function selectPrize() {
-  const weights = [18, 15, 20, 10, 10, 10, 9, 8]
-  const total = weights.reduce((a, b) => a + b, 0)
-  let rand = Math.floor(Math.random() * total)
-  for (let i = 0; i < prizes.length; i++) {
-    if (rand < weights[i]) return prizes[i]
-    rand -= weights[i]
+  const total = prizes.reduce((sum, prize) => sum + prize.probability, 0)
+  let rand = Math.random() * total
+
+  for (const prize of prizes) {
+    if (rand < prize.probability) return prize
+    rand -= prize.probability
   }
+
   return prizes[0]
 }

@@ -60,7 +60,7 @@ export default function App() {
   const [advisoryBack,setAdvisoryBack]= useState('home')
 
   // ── Leads ─────────────────────────────────────────────────────────────────
-  const { leads, addLead, clearLeads, exportCSV, stats } = useLeads()
+  const { leads, addLead, clearLeads, exportCSV, stats, storage, unlockAdmin, fetchLeads } = useLeads()
 
   // ── Admin (7 toques rápidos en el logo) ───────────────────────────────────
   const logoTap = useRef({ count: 0, timer: null })
@@ -267,6 +267,9 @@ export default function App() {
         return <AdminPanel
           leads={leads}
           stats={stats}
+          storage={storage}
+          onUnlock={unlockAdmin}
+          onRefresh={fetchLeads}
           onExport={exportCSV}
           onClear={clearLeads}
           onBack={goHome}

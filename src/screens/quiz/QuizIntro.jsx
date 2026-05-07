@@ -29,10 +29,6 @@ export default function QuizIntro({ onStart, onBack }) {
           4 preguntas rápidas sobre tu proceso, materiales y necesidades. El sistema aplica la <strong className="text-c-light">matriz de decisión de Continental</strong> y te muestra la solución más adecuada.
         </p>
 
-        <div className="bg-c-blue/20 border border-c-blue/40 rounded-2xl px-6 py-3 mb-10 text-sm text-c-light font-medium">
-          Sin ruleta · Sin presión · Solo la solución correcta para tu proceso
-        </div>
-
         {/* Pasos */}
         <div className="flex items-center gap-3 mb-10">
           {[

@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 
 export default function PrizeScreen({ prize, onHome, onAdvise }) {
   const [ph, setPh] = useState(0)
+  const isRetry = prize?.isRetry
+
   useEffect(() => {
     const t1 = setTimeout(() => setPh(1), 150)
     const t2 = setTimeout(() => setPh(2), 600)
@@ -27,15 +29,21 @@ export default function PrizeScreen({ prize, onHome, onAdvise }) {
         {/* Textos */}
         <div className={`text-center transition-all duration-500 delay-150 ${ph >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <div className="inline-flex items-center gap-2 bg-c-yellow/15 border border-c-yellow/40 rounded-full px-6 py-2 mb-4">
-            <span className="text-c-yellow font-bold text-lg uppercase tracking-wider">¡Felicitaciones!</span>
+            <span className="text-c-yellow font-bold text-lg uppercase tracking-wider">
+              {isRetry ? 'Gracias por participar' : '¡Felicitaciones!'}
+            </span>
           </div>
 
-          <h1 className="text-5xl font-black text-c-light mb-3">Ganaste:</h1>
+          <h1 className="text-5xl font-black text-c-light mb-3">
+            {isRetry ? 'Resultado:' : 'Ganaste:'}
+          </h1>
           <h2 className="text-4xl font-black text-c-yellow mb-4">{prize.label}</h2>
           <p className="text-c-muted text-xl max-w-lg mx-auto leading-relaxed mb-8">{prize.description}</p>
 
           <div className="bg-c-navy-card border border-c-navy-border rounded-3xl p-6 max-w-lg mx-auto mb-8">
-            <p className="text-c-muted text-xs font-bold uppercase tracking-widest mb-2">¿Cómo reclamarlo?</p>
+            <p className="text-c-muted text-xs font-bold uppercase tracking-widest mb-2">
+              {isRetry ? 'Siguiente paso' : '¿Cómo reclamarlo?'}
+            </p>
             <p className="text-c-light text-lg font-medium leading-relaxed">{prize.instruction}</p>
           </div>
         </div>

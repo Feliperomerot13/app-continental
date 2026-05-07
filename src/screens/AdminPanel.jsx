@@ -1,11 +1,19 @@
 import { useState } from 'react'
 import { getProductById } from '../data/products.js'
 
-export default function AdminPanel({ leads, stats, onExport, onClear, onBack }) {
+export default function AdminPanel({ leads, stats, storage, onUnlock, onRefresh, onExport, onClear, onBack }) {
   const [confirmClear, setConfirmClear] = useState(false)
   const [tab, setTab] = useState('leads')
+  const [pin, setPin] = useState('')
 
   const moduleLabel = m => ({ ruleta:'🎡 Ruleta', recomendador:'🔍 Recomendador', catalogo:'📚 Catálogo', asesoria:'💬 Asesoría' })[m] || m || '—'
+  const locked = storage?.needsAdminPin && !storage?.adminUnlocked
+
+  const handleUnlock = async (e) => {
+    e.preventDefault()
+    if (!pin.trim()) return
+    await onUnlock(pin.trim())
+  }
 
   return (
     <div className="screen bg-gray-950">
@@ -19,6 +27,12 @@ export default function AdminPanel({ leads, stats, onExport, onClear, onBack }) 
           <span className="text-white font-bold text-sm">Panel de administración — Feria Madera</span>
         </div>
         <div className="flex gap-2">
+          {!locked && (
+            <button onClick={() => onRefresh()} disabled={storage?.loading}
+              className="btn bg-gray-800 hover:bg-gray-700 disabled:opacity-40 text-white font-bold text-sm px-4 py-2 rounded-lg min-h-0">
+              ↻ Actualizar
+            </button>
+          )}
           <button onClick={onExport} disabled={leads.length === 0}
             className="btn bg-green-800 hover:bg-green-700 disabled:opacity-40 text-white font-bold text-sm px-4 py-2 rounded-lg min-h-0">
             📥 Exportar CSV
@@ -37,8 +51,40 @@ export default function AdminPanel({ leads, stats, onExport, onClear, onBack }) 
         </div>
       </div>
 
+      {locked && (
+        <div className="flex-1 flex items-center justify-center px-8">
+          <form onSubmit={handleUnlock} className="w-full max-w-md bg-gray-900 border border-gray-800 rounded-2xl p-7">
+            <h2 className="text-white font-black text-2xl mb-2">Acceso a registros</h2>
+            <p className="text-gray-400 text-sm leading-relaxed mb-5">
+              Ingresa el PIN configurado en Vercel para consultar, exportar o limpiar los leads guardados en Supabase.
+            </p>
+            <input
+              value={pin}
+              onChange={e => setPin(e.target.value)}
+              type="password"
+              placeholder="PIN administrador"
+              className="w-full bg-gray-950 border border-gray-700 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-c-blue"
+            />
+            {storage?.error && <p className="text-red-400 text-sm mt-3">{storage.error}</p>}
+            <button
+              type="submit"
+              disabled={storage?.loading || !pin.trim()}
+              className="btn w-full bg-c-blue hover:bg-c-blue-dark disabled:opacity-40 text-white font-black text-base px-4 py-3 rounded-xl min-h-0 mt-5"
+            >
+              {storage?.loading ? 'Validando…' : 'Entrar'}
+            </button>
+          </form>
+        </div>
+      )}
+
+      {!locked && storage?.error && (
+        <div className="shrink-0 bg-yellow-900/30 border-b border-yellow-800 px-8 py-2 text-yellow-200 text-sm">
+          {storage.error}
+        </div>
+      )}
+
       {/* Stats bar */}
-      <div className="shrink-0 grid grid-cols-5 gap-0 bg-gray-900 border-b border-gray-800">
+      {!locked && <div className="shrink-0 grid grid-cols-5 gap-0 bg-gray-900 border-b border-gray-800">
         {[
           { label: 'Total registros', val: stats.total,        color: 'text-white' },
           { label: 'Vía ruleta',      val: stats.ruleta,       color: 'text-yellow-400' },
@@ -51,10 +97,10 @@ export default function AdminPanel({ leads, stats, onExport, onClear, onBack }) 
             <div className="text-gray-500 text-xs mt-0.5">{s.label}</div>
           </div>
         ))}
-      </div>
+      </div>}
 
       {/* Tab nav */}
-      <div className="shrink-0 flex gap-1 px-8 py-3 bg-gray-900 border-b border-gray-800">
+      {!locked && <div className="shrink-0 flex gap-1 px-8 py-3 bg-gray-900 border-b border-gray-800">
         {[['leads','📋 Registros'], ['stats','📊 Estadísticas']].map(([k, l]) => (
           <button key={k} onClick={() => setTab(k)}
             className={`btn px-4 py-2 rounded-lg text-sm font-medium min-h-0 transition-colors
@@ -62,10 +108,10 @@ export default function AdminPanel({ leads, stats, onExport, onClear, onBack }) 
             {l}
           </button>
         ))}
-      </div>
+      </div>}
 
       {/* Content */}
-      <div className="flex-1 scroll">
+      {!locked && <div className="flex-1 scroll">
         {tab === 'leads' && (
           leads.length === 0
             ? <div className="flex flex-col items-center justify-center h-full"><div className="text-6xl mb-4">📭</div><p className="text-gray-500 text-xl">No hay registros aún</p></div>
@@ -141,7 +187,7 @@ export default function AdminPanel({ leads, stats, onExport, onClear, onBack }) 
             </div>
           </div>
         )}
-      </div>
+      </div>}
     </div>
   )
 }
