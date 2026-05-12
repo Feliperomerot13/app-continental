@@ -29,15 +29,15 @@ export default function ProductList({ filterType, filterKey, filterLabel, onSele
     <div className="screen bg-c-bg-light">
       <TopBar onHome={onCatalogHome} label={filterLabel} light />
 
-      <div className={`flex-1 flex flex-col overflow-hidden transition-all duration-400 ${ready ? 'opacity-100' : 'opacity-0'}`}>
+      <div className={`flex-1 min-h-0 flex flex-col overflow-hidden transition-all duration-400 ${ready ? 'opacity-100' : 'opacity-0'}`}>
         <div className="shrink-0 px-8 pt-4 pb-3 bg-white border-b border-c-border-l">
           <p className="text-gray-500 text-sm">
             {filtered.length} producto{filtered.length !== 1 ? 's' : ''} en esta categoría
           </p>
         </div>
 
-        <div className="flex-1 px-8 py-5 scroll">
-          <div className="grid grid-cols-2 gap-5">
+        <div className="flex-1 min-h-0 px-8 py-5 scroll">
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-5">
             {filtered.map(product => (
               <button
                 key={product.id}

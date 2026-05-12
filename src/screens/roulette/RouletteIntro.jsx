@@ -9,7 +9,7 @@ export default function RouletteIntro({ onStart, onBack }) {
     <div className="screen bg-c-navy bg-dots">
       <TopBar onHome={onBack} label="Participa y gana" />
 
-      <div className={`flex-1 flex flex-col items-center justify-center px-16 transition-all duration-500
+      <div className={`flex-1 min-h-0 scroll flex flex-col items-center justify-center px-8 sm:px-16 py-8 transition-all duration-500
         ${ready ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
 
         <div className="w-28 h-28 bg-c-yellow rounded-3xl flex items-center justify-center text-6xl shadow-2xl mb-8 animate-bounce-in">

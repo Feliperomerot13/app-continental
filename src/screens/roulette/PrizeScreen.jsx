@@ -12,14 +12,14 @@ export default function PrizeScreen({ prize, onHome, onAdvise }) {
   }, [])
 
   return (
-    <div className="screen bg-c-navy overflow-hidden">
+    <div className="screen bg-c-navy">
       {/* Destellos */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 inset-x-0 h-72 bg-gradient-to-b from-c-yellow/15 to-transparent" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_30%,rgba(245,158,11,0.12)_0%,transparent_65%)]" />
       </div>
 
-      <div className="flex-1 flex flex-col items-center justify-center px-12 relative">
+      <div className="flex-1 min-h-0 scroll flex flex-col items-center justify-center px-8 sm:px-12 py-8 relative">
         {/* Icono */}
         <div className={`text-9xl mb-6 transition-all duration-500 ${ph >= 1 ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}`}
           style={{ filter: 'drop-shadow(0 0 32px rgba(245,158,11,0.55))' }}>
@@ -49,7 +49,7 @@ export default function PrizeScreen({ prize, onHome, onAdvise }) {
         </div>
 
         {/* Botones */}
-        <div className={`flex gap-5 transition-all duration-500 delay-300 ${ph >= 3 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+        <div className={`flex flex-col sm:flex-row gap-5 transition-all duration-500 delay-300 ${ph >= 3 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <button
             onClick={onAdvise}
             className="btn bg-c-blue hover:bg-c-blue-dark text-white font-black text-xl px-10 py-4 rounded-2xl card-glow-blue transition-all"

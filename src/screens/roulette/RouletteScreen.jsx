@@ -5,12 +5,14 @@ import TopBar from '../shared/TopBar.jsx'
 // Colores alternos azul oscuro / amarillo para la ruleta
 const SEG_COLORS  = ['#1A56DB','#0D2248','#1338A8','#091A38','#2563EB','#0A1A35','#1A56DB','#0D2248']
 const SEG_COLORS2 = ['#F59E0B','#1A56DB','#D97706','#1338A8','#F59E0B','#1A56DB','#D97706','#1338A8']
+const WHEEL_SIZE = 720
 
 function drawWheel(canvas, rotation) {
   const ctx = canvas.getContext('2d')
   const W = canvas.width, H = canvas.height
+  const scale = W / 430
   const cx = W / 2, cy = H / 2
-  const r = Math.min(cx, cy) - 8
+  const r = Math.min(cx, cy) - (10 * scale)
   const n = prizes.length
   const seg = (2 * Math.PI) / n
 
@@ -41,36 +43,37 @@ function drawWheel(canvas, rotation) {
     ctx.translate(tx, ty)
     ctx.rotate(mid + Math.PI / 2)
     ctx.fillStyle = '#FFFFFF'
-    ctx.font = 'bold 12px Inter, sans-serif'
+    ctx.font = `bold ${Math.round(13 * scale)}px Inter, sans-serif`
     ctx.textAlign = 'center'
     ctx.textBaseline = 'middle'
 
     const words = prize.label.split(' ')
     const lines = []
     let line = ''
+    const maxChars = Math.round(14 * scale)
     words.forEach(w => {
       const t = line ? `${line} ${w}` : w
-      if (t.length > 13) { lines.push(line); line = w } else line = t
+      if (t.length > maxChars) { if (line) lines.push(line); line = w } else line = t
     })
     if (line) lines.push(line)
-    const lh = 14
+    const lh = Math.round(15 * scale)
     lines.forEach((l, li) => ctx.fillText(l, 0, (li - (lines.length - 1) / 2) * lh))
 
-    ctx.font = '17px serif'
-    ctx.fillText(prize.icon, 0, -(lines.length * lh / 2) - 11)
+    ctx.font = `${Math.round(21 * scale)}px serif`
+    ctx.fillText(prize.icon, 0, -(lines.length * lh / 2) - (13 * scale))
     ctx.restore()
   })
 
   // Centro
   ctx.beginPath()
-  ctx.arc(cx, cy, 26, 0, 2 * Math.PI)
+  ctx.arc(cx, cy, 30 * scale, 0, 2 * Math.PI)
   ctx.fillStyle = '#F59E0B'
   ctx.fill()
   ctx.strokeStyle = '#fff'
-  ctx.lineWidth = 3
+  ctx.lineWidth = 3 * scale
   ctx.stroke()
   ctx.fillStyle = '#040E1F'
-  ctx.font = 'bold 10px Inter, sans-serif'
+  ctx.font = `bold ${Math.round(11 * scale)}px Inter, sans-serif`
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
   ctx.fillText('C', cx, cy)
@@ -87,6 +90,9 @@ export default function RouletteScreen({ prizeToWin, onPrize, onBack }) {
   useEffect(() => {
     setTimeout(() => setReady(true), 120)
     drawWheel(canvasRef.current, 0)
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current)
+    }
   }, [])
 
   const spin = () => {
@@ -125,18 +131,19 @@ export default function RouletteScreen({ prizeToWin, onPrize, onBack }) {
     <div className="screen bg-c-navy bg-dots">
       <TopBar onHome={onBack} label="Gira la ruleta" />
 
-      <div className={`flex-1 flex items-center justify-center gap-10 px-10 transition-all duration-500
+      <div className={`flex-1 min-h-0 scroll px-6 sm:px-10 py-6 transition-all duration-500
         ${ready ? 'opacity-100' : 'opacity-0'}`}>
 
-        {/* Texto izquierdo */}
-        <div className="flex-1 text-right max-w-64">
-          <h2 className="text-4xl font-black text-c-light leading-tight mb-3">
+        <div className="mx-auto flex min-h-full w-full max-w-5xl flex-col items-center justify-start gap-6 pb-10">
+        {/* Texto superior */}
+        <div className="text-center">
+          <h2 className="text-5xl font-black text-c-light leading-tight mb-3">
             {done
-              ? <><span className="text-c-yellow">¡Felicitaciones!</span></>
-              : <>Tu momento<br />de <span className="text-c-yellow">ganar</span></>}
+              ? <><span className="text-c-yellow">Resultado listo</span></>
+              : <>Tu momento de <span className="text-c-yellow">ganar</span></>}
           </h2>
           {spinning && <p className="text-c-yellow font-bold text-lg animate-pulse">Girando…</p>}
-          {!spinning && !done && <p className="text-c-muted">Toca el botón para girar</p>}
+          {!spinning && !done && <p className="text-c-muted text-lg">Toca el botón para girar</p>}
         </div>
 
         {/* Ruleta */}
@@ -144,18 +151,24 @@ export default function RouletteScreen({ prizeToWin, onPrize, onBack }) {
           {/* Puntero */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1 z-10">
             <div className="w-0 h-0"
-              style={{ borderLeft:'10px solid transparent', borderRight:'10px solid transparent', borderTop:'22px solid #F59E0B' }} />
+              style={{ borderLeft:'18px solid transparent', borderRight:'18px solid transparent', borderTop:'36px solid #F59E0B' }} />
           </div>
-          <canvas ref={canvasRef} width={430} height={430} className="rounded-full" />
+          <canvas
+            ref={canvasRef}
+            width={WHEEL_SIZE}
+            height={WHEEL_SIZE}
+            className="rounded-full"
+            style={{ width: 'min(82vw, 62vh, 760px)', height: 'min(82vw, 62vh, 760px)' }}
+          />
         </div>
 
-        {/* Botón + lista derecha */}
-        <div className="flex-1 max-w-64">
+        {/* Botón + lista inferior */}
+        <div className="w-full max-w-3xl">
           {!done ? (
             <button
               onClick={spin}
               disabled={spinning}
-              className={`btn w-full font-black text-2xl py-6 rounded-2xl transition-all
+              className={`btn mx-auto block w-full max-w-xl font-black text-3xl py-7 rounded-2xl transition-all
                 ${spinning
                   ? 'bg-c-navy-mid text-c-muted cursor-not-allowed'
                   : 'bg-c-yellow hover:bg-c-yellow-d text-gray-900 shadow-2xl animate-pulse-y'}`}
@@ -169,15 +182,16 @@ export default function RouletteScreen({ prizeToWin, onPrize, onBack }) {
             </div>
           )}
 
-          <div className="mt-5 space-y-1.5">
+          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
             {prizes.map((p, i) => (
-              <div key={i} className="flex items-center gap-2.5">
-                <div className="w-2.5 h-2.5 rounded-full shrink-0"
+              <div key={i} className="flex items-center gap-3 rounded-2xl border border-c-navy-border bg-c-navy-card/70 px-4 py-3">
+                <div className="w-3 h-3 rounded-full shrink-0"
                   style={{ background: (i % 2 === 0) ? '#F59E0B' : '#1A56DB' }} />
-                <span className="text-c-muted text-xs">{p.icon} {p.label}</span>
+                <span className="text-c-muted text-base font-semibold">{p.icon} {p.label}</span>
               </div>
             ))}
           </div>
+        </div>
         </div>
       </div>
     </div>

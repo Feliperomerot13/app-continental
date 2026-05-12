@@ -37,10 +37,10 @@ export default function CatalogHome({ onFilter, onSelectProduct, onBack, onBroch
     <div className="screen bg-c-bg-light">
       <TopBar onHome={onBack} label="Catálogo de productos" light />
 
-      <div className={`flex-1 flex flex-col overflow-hidden transition-all duration-400 ${ready ? 'opacity-100' : 'opacity-0'}`}>
+      <div className={`flex-1 min-h-0 flex flex-col overflow-hidden transition-all duration-400 ${ready ? 'opacity-100' : 'opacity-0'}`}>
 
         <div className="shrink-0 px-8 pt-5 pb-3 bg-white border-b border-c-border-l">
-          <div className="flex items-center justify-between mb-3">
+          <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between mb-3">
             <h2 className="text-2xl font-black text-gray-900">Explora el portafolio de maderas</h2>
             {onBrochure && (
               <button
@@ -52,7 +52,7 @@ export default function CatalogHome({ onFilter, onSelectProduct, onBack, onBroch
               </button>
             )}
           </div>
-          <div className="flex gap-2 p-1 bg-gray-100 rounded-2xl w-fit">
+          <div className="flex flex-wrap gap-2 p-1 bg-gray-100 rounded-2xl w-fit">
             {[
               { key: 'process', label: '⚙️ Por proceso' },
               { key: 'family',  label: '🧪 Por familia' },
@@ -67,7 +67,7 @@ export default function CatalogHome({ onFilter, onSelectProduct, onBack, onBroch
           </div>
         </div>
 
-        <div className="flex-1 px-8 py-5 scroll">
+        <div className="flex-1 min-h-0 px-8 py-5 scroll">
           {tab === 'process' && (
             <div className="grid grid-cols-1 gap-4">
               {byProcess.map(item => (
@@ -89,7 +89,7 @@ export default function CatalogHome({ onFilter, onSelectProduct, onBack, onBroch
           )}
 
           {tab === 'family' && (
-            <div className="grid grid-cols-2 gap-5">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
               {byFamily.map(item => (
                 <button key={item.key} onClick={() => onFilter('family', item.key, item.label)}
                   className="btn flex flex-col items-start gap-3 bg-white hover:bg-c-bg-light border border-c-border-l hover:border-c-blue/40 rounded-2xl p-6 text-left transition-all">
@@ -105,7 +105,7 @@ export default function CatalogHome({ onFilter, onSelectProduct, onBack, onBroch
           )}
 
           {tab === 'product' && (
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
               {allProducts.map(item => (
                 <button key={item.key} onClick={() => onSelectProduct(item.key)}
                   className="btn flex items-center gap-4 bg-white hover:bg-c-bg-light border border-c-border-l hover:border-c-blue/40 rounded-2xl p-5 text-left transition-all">

@@ -25,7 +25,7 @@ export default function QuizResult({ recommendation, answers, onViewProduct, onA
     <div className="screen bg-c-navy bg-dots">
       <TopBar onHome={onBack} label="Tu recomendación" />
 
-      <div className={`flex-1 flex flex-col items-center px-10 py-5 scroll transition-all duration-500
+      <div className={`flex-1 min-h-0 flex flex-col items-center px-6 sm:px-10 py-5 pb-10 scroll transition-all duration-500
         ${ready ? 'opacity-100' : 'opacity-0'}`}>
         <div className="w-full max-w-3xl">
 
@@ -59,7 +59,7 @@ export default function QuizResult({ recommendation, answers, onViewProduct, onA
                 </div>
               </div>
 
-              <div className="mt-6 grid grid-cols-2 gap-3">
+              <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-3">
                 {product.benefits.map((b, i) => (
                   <div key={i} className="flex items-center gap-2 text-sm text-c-muted">
                     <span className="w-5 h-5 bg-c-blue/20 rounded-full flex items-center justify-center text-c-blue-mid text-xs shrink-0">✓</span>
@@ -116,7 +116,7 @@ export default function QuizResult({ recommendation, answers, onViewProduct, onA
             </div>
           )}
 
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <button onClick={() => onViewProduct(product.id)}
               className="btn bg-c-navy-card border border-c-navy-border text-c-light font-bold text-base py-4 rounded-2xl hover:border-c-blue/50 transition-all">
               📋 Ver ficha completa

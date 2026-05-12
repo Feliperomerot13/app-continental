@@ -33,11 +33,11 @@ export default function ProductDetail({ productId, onBack, onSimilar, onAdvise, 
     <div className="screen bg-c-bg-light">
       <TopBar onHome={onBack} label={product.shortName} light />
 
-      <div className={`flex-1 scroll px-8 py-6 transition-all duration-400 ${ready ? 'opacity-100' : 'opacity-0'}`}>
+      <div className={`flex-1 min-h-0 scroll px-8 py-6 transition-all duration-400 ${ready ? 'opacity-100' : 'opacity-0'}`}>
         <div className="max-w-4xl mx-auto">
 
           {/* ── Header del producto ── */}
-          <div className="flex items-start gap-6 mb-8">
+          <div className="flex flex-col lg:flex-row lg:items-start gap-6 mb-8">
             {/* Imagen / emoji */}
             <div className="w-44 h-44 bg-white border border-c-border-l rounded-3xl flex items-center justify-center shrink-0 shadow-sm overflow-hidden">
               <ProductImage product={product} className="w-full h-full p-2" />
@@ -60,14 +60,14 @@ export default function ProductDetail({ productId, onBack, onSimilar, onAdvise, 
           </div>
 
           {/* ── Grid contenido ── */}
-          <div className="grid grid-cols-3 gap-6 mb-8">
+          <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-8">
 
             {/* Columna principal */}
-            <div className="col-span-2 space-y-5">
+            <div className="xl:col-span-2 space-y-5">
               {/* Beneficios */}
               <div className="bg-white rounded-2xl p-6 border border-c-border-l">
                 <h3 className="font-black text-gray-900 text-lg mb-4">✅ Beneficios clave</h3>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {product.benefits.map((b, i) => (
                     <div key={i} className="flex items-center gap-2">
                       <div className="w-6 h-6 bg-c-blue rounded-full flex items-center justify-center shrink-0">
@@ -143,7 +143,7 @@ export default function ProductDetail({ productId, onBack, onSimilar, onAdvise, 
           {similar.length > 0 && (
             <div className="mb-6">
               <h3 className="font-black text-gray-900 text-xl mb-4">Productos de la misma familia</h3>
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {similar.map(p => (
                   <button
                     key={p.id}

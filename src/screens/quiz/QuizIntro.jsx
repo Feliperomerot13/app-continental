@@ -9,7 +9,7 @@ export default function QuizIntro({ onStart, onBack }) {
     <div className="screen bg-c-navy bg-dots">
       <TopBar onHome={onBack} label="Encuentra tu producto ideal" />
 
-      <div className={`flex-1 flex flex-col items-center justify-center px-16 transition-all duration-500
+      <div className={`flex-1 min-h-0 scroll flex flex-col items-center justify-center px-8 sm:px-16 py-8 transition-all duration-500
         ${ready ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
 
         <div className="mb-8 animate-bounce-in">

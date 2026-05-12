@@ -66,7 +66,7 @@ export default function AdvisoryForm({ context, onSubmit, onBack }) {
     return (
       <div className="screen bg-c-bg-light">
         <TopBar onHome={onBack} label="Solicitud enviada" light />
-        <div className="flex-1 flex flex-col items-center justify-center px-12">
+        <div className="flex-1 min-h-0 scroll flex flex-col items-center justify-center px-8 py-8">
           <div className="text-8xl mb-6">✅</div>
           <h2 className="text-4xl font-black text-gray-900 text-center mb-4">¡Solicitud registrada!</h2>
           <p className="text-gray-600 text-xl text-center max-w-md leading-relaxed mb-8">
@@ -87,17 +87,17 @@ export default function AdvisoryForm({ context, onSubmit, onBack }) {
     <div className="screen bg-c-bg-light">
       <TopBar onHome={onBack} label="Solicitar asesoría" light />
 
-      <div className="flex-1 flex flex-col items-center px-12 py-6 scroll">
-        <div className="w-full max-w-xl">
+      <div className="flex-1 min-h-0 flex flex-col items-center px-6 sm:px-10 py-6 pb-12 scroll">
+        <div className="w-full max-w-3xl">
 
           <div className="text-center mb-8">
             <div className="text-5xl mb-3">💬</div>
-            <h2 className="text-3xl font-black text-gray-900 mb-1.5">¿Cómo podemos ayudarte?</h2>
-            <p className="text-gray-500">Déjanos tus datos y un asesor técnico te atenderá en el stand.</p>
+            <h2 className="text-4xl font-black text-gray-900 mb-2">¿Cómo podemos ayudarte?</h2>
+            <p className="text-gray-500 text-lg">Déjanos tus datos y un asesor técnico te atenderá en el stand.</p>
           </div>
 
-          <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Field label="Nombre completo" value={form.nombre}
                 onChange={e => set('nombre', e.target.value)}
                 error={errors.nombre} placeholder="Tu nombre" required />
@@ -105,7 +105,7 @@ export default function AdvisoryForm({ context, onSubmit, onBack }) {
                 onChange={e => set('empresa', e.target.value)}
                 error={errors.empresa} placeholder="Tu empresa" required />
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Field label="Cargo" value={form.cargo}
                 onChange={e => set('cargo', e.target.value)}
                 error={errors.cargo} placeholder="Tu cargo" required />
@@ -113,7 +113,7 @@ export default function AdvisoryForm({ context, onSubmit, onBack }) {
                 onChange={e => set('ciudad', e.target.value)}
                 error={errors.ciudad} placeholder="Tu ciudad" required />
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Field label="Celular" value={form.celular}
                 onChange={e => set('celular', e.target.value)}
                 error={errors.celular} placeholder="310 000 0000" type="tel" required />

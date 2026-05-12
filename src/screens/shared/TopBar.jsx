@@ -4,7 +4,7 @@
  */
 export default function TopBar({ onHome, label, light = false }) {
   return (
-    <div className={`shrink-0 flex items-center justify-between px-8 py-3 border-b
+    <div className={`shrink-0 flex items-center justify-between px-8 py-4 border-b
       ${light
         ? 'border-c-border-l bg-white/98 backdrop-blur-sm'
         : 'border-c-navy-border bg-c-navy/95 backdrop-blur-sm'}`}
@@ -12,7 +12,7 @@ export default function TopBar({ onHome, label, light = false }) {
       {/* Botón volver */}
       <button
         onClick={onHome}
-        className={`btn flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold
+        className={`btn flex items-center gap-2 px-5 py-3 rounded-xl text-base font-semibold
           transition-colors min-h-0
           ${light
             ? 'text-gray-500 hover:text-gray-900 hover:bg-gray-100'
@@ -25,15 +25,15 @@ export default function TopBar({ onHome, label, light = false }) {
       </button>
 
       {/* Logo + label centrado */}
-      <div className="flex flex-col items-center gap-1">
+      <div className="flex flex-col items-center gap-1.5">
         <img
           src="/logo-continental.png"
           alt="Continental"
-          className={`h-14 w-auto ${light ? 'opacity-90' : 'opacity-95'}`}
+          className={`h-20 w-auto ${light ? 'opacity-90' : 'opacity-95'}`}
           style={light ? {} : { filter: 'brightness(0) invert(1)' }}
         />
         {label && (
-          <span className={`text-xs font-bold tracking-wide
+          <span className={`text-sm font-bold tracking-wide
             ${light ? 'text-gray-600' : 'text-c-light/70'}`}>
             {label}
           </span>
@@ -41,7 +41,7 @@ export default function TopBar({ onHome, label, light = false }) {
       </div>
 
       {/* Espacio para alinear el botón de volver */}
-      <div className="w-24" />
+      <div className="w-32" />
     </div>
   )
 }

@@ -82,17 +82,17 @@ export default function RegistrationForm({ onSubmit, onBack }) {
     <div className="screen bg-c-navy">
       <TopBar onHome={onBack} label="Registro para participar" />
 
-      <div className="flex-1 flex flex-col items-center px-12 py-6 scroll">
-        <div className="w-full max-w-xl">
+      <div className="flex-1 min-h-0 flex flex-col items-center px-6 sm:px-10 py-6 pb-12 scroll">
+        <div className="w-full max-w-3xl">
 
           <div className="text-center mb-8">
             <div className="text-5xl mb-3">📝</div>
-            <h2 className="text-3xl font-black text-c-light mb-1.5">Tus datos de contacto</h2>
-            <p className="text-c-muted">Completa los campos y habilitamos la ruleta para ti</p>
+            <h2 className="text-4xl font-black text-c-light mb-2">Tus datos de contacto</h2>
+            <p className="text-c-muted text-lg">Completa los campos y habilitamos la ruleta para ti</p>
           </div>
 
-          <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Field
                 label="Nombre completo" value={form.nombre}
                 onChange={e => set('nombre', e.target.value)}
@@ -104,7 +104,7 @@ export default function RegistrationForm({ onSubmit, onBack }) {
                 error={errors.empresa} placeholder="Nombre de tu empresa" required
               />
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Field
                 label="Cargo" value={form.cargo}
                 onChange={e => set('cargo', e.target.value)}
@@ -116,7 +116,7 @@ export default function RegistrationForm({ onSubmit, onBack }) {
                 placeholder="Tu ciudad"
               />
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Field
                 label="Celular" value={form.celular}
                 onChange={e => set('celular', e.target.value)}

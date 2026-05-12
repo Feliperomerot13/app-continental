@@ -63,7 +63,7 @@ export default function QuizQuestion({ questionIndex, onAnswer, onBack }) {
       </div>
 
       {/* Pregunta */}
-      <div key={animKey} className="flex-1 flex flex-col px-8 py-3 animate-slide-in overflow-hidden">
+      <div key={animKey} className="flex-1 min-h-0 scroll flex flex-col px-8 py-5 animate-slide-in">
         <div className="text-center mb-5">
           <div className="text-5xl mb-3">{q.icon}</div>
           <h2 className="text-3xl font-black text-c-light leading-tight">{q.question}</h2>
@@ -76,7 +76,7 @@ export default function QuizQuestion({ questionIndex, onAnswer, onBack }) {
         </div>
 
         {/* Opciones */}
-        <div className="grid grid-cols-3 gap-4 flex-1">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
           {q.options.map(opt => {
             const isActive = isMulti
               ? multiSelected.includes(opt.id)
@@ -86,7 +86,7 @@ export default function QuizQuestion({ questionIndex, onAnswer, onBack }) {
               <button
                 key={opt.id}
                 onClick={() => isMulti ? toggleMulti(opt.id) : pickSingle(opt.id)}
-                className={`btn flex flex-col items-center justify-center gap-3 rounded-2xl border-2 p-5
+                className={`btn min-h-44 flex flex-col items-center justify-center gap-3 rounded-2xl border-2 p-5
                   font-semibold text-lg transition-all duration-150 relative
                   ${isActive
                     ? 'bg-c-blue border-c-blue text-white shadow-2xl card-glow-blue'

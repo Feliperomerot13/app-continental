@@ -13,7 +13,7 @@ export default function HomeScreen({ onNavigate, onLogoTap }) {
       </div>
 
       {/* Contenido scrollable */}
-      <div className={`relative flex-1 flex flex-col items-center scroll transition-all duration-600
+      <div className={`relative flex-1 min-h-0 flex flex-col items-center scroll transition-all duration-600
         ${ready ? 'opacity-100' : 'opacity-0'}`}>
 
         {/* ── Logo principal — PROTAGONISTA ── */}
@@ -25,7 +25,7 @@ export default function HomeScreen({ onNavigate, onLogoTap }) {
             <img
               src="/logo-continental.png"
               alt="Continental de Pegantes y Soluciones"
-              className="h-56 w-auto drop-shadow-2xl"
+              className="h-[16.8rem] w-auto drop-shadow-2xl"
               style={{ filter: 'brightness(0) invert(1) drop-shadow(0 8px 40px rgba(26,86,219,0.6))' }}
             />
           </button>
@@ -44,7 +44,7 @@ export default function HomeScreen({ onNavigate, onLogoTap }) {
         </div>
 
         {/* ── Botones principales ── */}
-        <div className="grid grid-cols-2 gap-5 w-full max-w-3xl px-12 pb-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full max-w-3xl px-8 sm:px-12 pb-5">
           {/* Módulo 1 — Participa y gana */}
           <button
             onClick={() => onNavigate('roulette-intro')}
@@ -93,7 +93,7 @@ export default function HomeScreen({ onNavigate, onLogoTap }) {
         </div>
 
         {/* ── Botones secundarios — Catálogo + Brochure ── */}
-        <div className="px-12 pb-10 flex gap-4 w-full max-w-3xl">
+        <div className="px-8 sm:px-12 pb-10 flex flex-col md:flex-row gap-4 w-full max-w-3xl">
           <button
             onClick={() => onNavigate('catalog')}
             className="btn flex-1 flex items-center gap-3 bg-c-navy-card border border-c-navy-border hover:border-c-blue/50 text-c-light rounded-2xl px-6 py-4 font-semibold text-base transition-all"

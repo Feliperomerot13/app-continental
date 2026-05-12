@@ -73,7 +73,8 @@ export default function App() {
     setRecommendation(null); setPrize(null)
   }, [screen])
 
-  const { warningVisible, countdown, resetTimer } = useInactivity(handleReset, 75000, 15000)
+  const inactivityEnabled = screen !== 'home' && screen !== 'admin'
+  const { warningVisible, countdown, resetTimer } = useInactivity(handleReset, 75000, 15000, inactivityEnabled)
 
   // ── Handlers de navegación ────────────────────────────────────────────────
   const goHome = () => setScreen('home')
@@ -283,7 +284,7 @@ export default function App() {
   return (
     <div className="w-screen h-screen overflow-hidden bg-c-navy relative">
       {renderScreen()}
-      {warningVisible && screen !== 'admin' && (
+      {warningVisible && inactivityEnabled && (
         <InactivityWarning countdown={countdown} onStay={resetTimer} />
       )}
     </div>
