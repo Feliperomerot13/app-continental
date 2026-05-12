@@ -176,7 +176,7 @@ export function useLeads() {
 
     const headers = [
       'ID','Fecha','Hora','Módulo','Nombre','Empresa','Cargo','Celular','Correo','Ciudad',
-      'Tipo empresa','Proceso','Sustrato','Necesidad','Tipo aplicación',
+      'Tipo empresa','Producto interés','Proceso','Sustrato','Necesidad','Tipo aplicación',
       'Producto recomendado','Producto alterno','Premio','Acepta datos','Acepta contacto',
     ]
     const toRow = l => {
@@ -189,6 +189,7 @@ export function useLeads() {
         l.nombre || '', l.empresa || '', l.cargo || '',
         l.celular || '', l.correo || '', l.ciudad || '',
         l.tipoEmpresa || '',
+        l.productoInteres || '',
         l.proceso || '', l.sustrato || '', l.necesidad || '', l.aplicacion || '',
         l.productoRecomendado || '', l.productoAlterno || '',
         l.premio || '',

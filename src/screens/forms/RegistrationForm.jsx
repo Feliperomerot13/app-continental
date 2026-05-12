@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import TopBar from '../shared/TopBar.jsx'
+import { products } from '../../data/products.js'
 
 // ─── Field FUERA del componente padre ── evita remount en cada render ────────
 function Field({ label, value, onChange, error, placeholder, type = 'text', required }) {
@@ -44,6 +45,29 @@ function ChipGroup({ options, value, onChange }) {
   )
 }
 
+function ProductInterestSelect({ value, onChange }) {
+  return (
+    <div>
+      <label className="block text-sm font-semibold text-c-muted mb-1.5">
+        Producto de interés <span className="text-c-muted/50 font-normal">(opcional)</span>
+      </label>
+      <select
+        value={value}
+        onChange={e => onChange(e.target.value)}
+        className="w-full bg-c-navy-mid border border-c-navy-border rounded-xl px-4 py-3.5 text-c-light text-base
+          focus:outline-none focus:border-c-blue transition-colors"
+      >
+        <option value="">Selecciona un producto si ya tienes uno en mente</option>
+        {products.map(product => (
+          <option key={product.id} value={product.shortName || product.name}>
+            {product.shortName || product.name}
+          </option>
+        ))}
+      </select>
+    </div>
+  )
+}
+
 const tiposEmpresa = [
   'Fabricante de muebles', 'Carpintería / Ebanistería', 'Fabricante industrial',
   'Distribuidor', 'Arquitecto / Diseñador', 'Comprador', 'Otro',
@@ -53,7 +77,7 @@ const tiposEmpresa = [
 export default function RegistrationForm({ onSubmit, onBack }) {
   const [form, setForm] = useState({
     nombre: '', empresa: '', cargo: '', celular: '', correo: '',
-    ciudad: '', tipoEmpresa: '', aceptaDatos: false, aceptaContacto: false,
+    ciudad: '', tipoEmpresa: '', productoInteres: '', aceptaDatos: false, aceptaContacto: false,
   })
   const [errors, setErrors] = useState({})
 
@@ -131,6 +155,11 @@ export default function RegistrationForm({ onSubmit, onBack }) {
             {errors.celular && !errors.correo && (
               <p className="text-red-400 text-xs -mt-2">{errors.celular}</p>
             )}
+
+            <ProductInterestSelect
+              value={form.productoInteres}
+              onChange={v => set('productoInteres', v)}
+            />
 
             {/* Tipo empresa — opcional */}
             <div>

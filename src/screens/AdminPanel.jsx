@@ -119,10 +119,10 @@ export default function AdminPanel({ leads, stats, storage, onUnlock, onRefresh,
           leads.length === 0
             ? <div className="flex flex-col items-center justify-center h-full"><div className="text-6xl mb-4">📭</div><p className="text-gray-500 text-xl">No hay registros aún</p></div>
             : <div className="w-full overflow-x-auto">
-                <table className="min-w-[980px] w-full text-sm">
+                <table className="min-w-[1120px] w-full text-sm">
                   <thead className="sticky top-0 bg-gray-900 border-b border-gray-800">
                     <tr>
-                      {['Fecha/Hora','Módulo','Nombre','Empresa','Cargo','Celular','Correo','Ciudad','Producto rec.','Premio','Datos'].map(h => (
+                      {['Fecha/Hora','Módulo','Nombre','Empresa','Cargo','Celular','Correo','Ciudad','Producto interés','Producto rec.','Premio','Datos'].map(h => (
                         <th key={h} className="px-4 py-3 text-left text-gray-400 font-semibold whitespace-nowrap text-xs">{h}</th>
                       ))}
                     </tr>
@@ -144,6 +144,7 @@ export default function AdminPanel({ leads, stats, storage, onUnlock, onRefresh,
                           <td className="px-4 py-3 text-gray-400 whitespace-nowrap">{l.celular||'—'}</td>
                           <td className="px-4 py-3 text-gray-400 whitespace-nowrap text-xs">{l.correo||'—'}</td>
                           <td className="px-4 py-3 text-gray-400 whitespace-nowrap">{l.ciudad||'—'}</td>
+                          <td className="px-4 py-3 text-gray-300 whitespace-nowrap text-xs">{l.productoInteres||'—'}</td>
                           <td className="px-4 py-3 text-gray-300 whitespace-nowrap text-xs">{prod?.shortName||l.productoRecomendado||'—'}</td>
                           <td className="px-4 py-3 text-gray-400 whitespace-nowrap text-xs max-w-32 truncate">{l.premio||'—'}</td>
                           <td className="px-4 py-3 whitespace-nowrap">
