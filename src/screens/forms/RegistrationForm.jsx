@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import TopBar from '../shared/TopBar.jsx'
-import { products } from '../../data/products.js'
 
 // ─── Field FUERA del componente padre ── evita remount en cada render ────────
 function Field({ label, value, onChange, error, placeholder, type = 'text', required }) {
@@ -45,25 +44,153 @@ function ChipGroup({ options, value, onChange }) {
   )
 }
 
-function ProductInterestSelect({ value, onChange }) {
+const PRODUCT_INTEREST_OPTIONS = [
+  'Hotmelt Conti Cap 1',
+  'Hotmelt Conti Foam 1',
+  'Adhesivo Hotmelt ATHC-38',
+  'adhesivo Hotmelt BTHC-Media',
+  'adhesivo Hotmelt BTHC-20',
+  'Hotmelt Contibox',
+  'Pegante Continental Incoloro',
+  'One Way',
+  'One Way Plus',
+  'One Way Plus Aerosol',
+  'Aquoso One Way',
+  'Plus Madera',
+  'Spray',
+  'Super Madera',
+  'Cola Conti 30',
+  'Cola Conti 40',
+  'PVA Conti 40',
+  'PVA Conti 50',
+  'PVA Conti 50 Max',
+  'Pegante Contigramilla',
+  'Pegante Poliuretano Laminado',
+  'Conti Instantaneo',
+  'Conti Pur',
+  'Conti Pur D4',
+]
+const OTHER_PRODUCT = 'Otro'
+
+function formatProductInterest(selected, otherText) {
+  const picked = selected.filter(item => item !== OTHER_PRODUCT)
+  const custom = otherText.trim()
+  return [...picked, ...(custom ? [custom] : [])].join(', ')
+}
+
+function ProductInterestMultiSelect({ onChange }) {
+  const [open, setOpen] = useState(false)
+  const [selected, setSelected] = useState([])
+  const [otherText, setOtherText] = useState('')
+
+  const emit = (nextSelected, nextOtherText = otherText) => {
+    setSelected(nextSelected)
+    onChange(formatProductInterest(nextSelected, nextOtherText))
+  }
+
+  const toggle = (option) => {
+    const exists = selected.includes(option)
+    const next = exists ? selected.filter(item => item !== option) : [...selected, option]
+
+    if (option === OTHER_PRODUCT && exists) {
+      setOtherText('')
+      onChange(formatProductInterest(next, ''))
+      setSelected(next)
+      return
+    }
+
+    emit(next)
+  }
+
+  const handleOtherChange = (value) => {
+    setOtherText(value)
+    onChange(formatProductInterest(selected, value))
+  }
+
+  const clear = () => {
+    setSelected([])
+    setOtherText('')
+    onChange('')
+  }
+
+  const selectedNames = selected.filter(item => item !== OTHER_PRODUCT)
+  const visibleSelection = [
+    ...selectedNames,
+    ...(selected.includes(OTHER_PRODUCT) && otherText.trim() ? [otherText.trim()] : []),
+  ]
+  const count = visibleSelection.length
+
   return (
     <div>
       <label className="block text-sm font-semibold text-c-muted mb-1.5">
         Producto de interés <span className="text-c-muted/50 font-normal">(opcional)</span>
       </label>
-      <select
-        value={value}
-        onChange={e => onChange(e.target.value)}
-        className="w-full bg-c-navy-mid border border-c-navy-border rounded-xl px-4 py-3.5 text-c-light text-base
-          focus:outline-none focus:border-c-blue transition-colors"
+      <button
+        type="button"
+        onClick={() => setOpen(value => !value)}
+        className="btn w-full min-h-0 bg-c-navy-mid border border-c-navy-border rounded-xl px-4 py-3.5
+          text-left text-c-light text-base focus:outline-none focus:border-c-blue transition-colors"
       >
-        <option value="">Selecciona un producto si ya tienes uno en mente</option>
-        {products.map(product => (
-          <option key={product.id} value={product.shortName || product.name}>
-            {product.shortName || product.name}
-          </option>
-        ))}
-      </select>
+        <span className="flex items-center justify-between gap-3">
+          <span className={count ? 'text-c-light' : 'text-c-muted/70'}>
+            {count
+              ? `${count} producto${count > 1 ? 's' : ''} seleccionado${count > 1 ? 's' : ''}`
+              : 'Selecciona uno o varios productos'}
+          </span>
+          <span className={`text-c-muted transition-transform ${open ? 'rotate-180' : ''}`}>⌄</span>
+        </span>
+      </button>
+
+      {count > 0 && (
+        <div className="mt-2 flex flex-wrap gap-2">
+          {visibleSelection.map(item => (
+            <span key={item} className="rounded-lg bg-c-blue/20 border border-c-blue/30 px-2.5 py-1 text-xs font-semibold text-c-light">
+              {item}
+            </span>
+          ))}
+          <button
+            type="button"
+            onClick={clear}
+            className="btn min-h-0 rounded-lg border border-c-navy-border px-2.5 py-1 text-xs font-semibold text-c-muted hover:text-c-light"
+          >
+            Limpiar
+          </button>
+        </div>
+      )}
+
+      {open && (
+        <div className="mt-3 rounded-2xl border border-c-navy-border bg-c-navy-card p-3">
+          <div className="grid max-h-64 grid-cols-1 gap-2 overflow-y-auto pr-1 sm:grid-cols-2">
+            {[...PRODUCT_INTEREST_OPTIONS, OTHER_PRODUCT].map(option => {
+              const active = selected.includes(option)
+              return (
+                <button
+                  key={option}
+                  type="button"
+                  onClick={() => toggle(option)}
+                  className={`btn min-h-0 rounded-xl border px-3 py-2 text-left text-sm font-semibold transition-all
+                    ${active
+                      ? 'border-c-blue bg-c-blue text-white'
+                      : 'border-c-navy-border bg-c-navy-mid text-c-muted hover:border-c-blue/50 hover:text-c-light'}`}
+                >
+                  {active ? '✓ ' : ''}{option}
+                </button>
+              )
+            })}
+          </div>
+
+          {selected.includes(OTHER_PRODUCT) && (
+            <input
+              type="text"
+              value={otherText}
+              onChange={e => handleOtherChange(e.target.value)}
+              placeholder="Escribe el otro producto"
+              className="mt-3 w-full rounded-xl border border-c-navy-border bg-c-navy-mid px-4 py-3 text-c-light
+                placeholder-c-muted/50 focus:outline-none focus:border-c-blue"
+            />
+          )}
+        </div>
+      )}
     </div>
   )
 }
@@ -156,10 +283,7 @@ export default function RegistrationForm({ onSubmit, onBack }) {
               <p className="text-red-400 text-xs -mt-2">{errors.celular}</p>
             )}
 
-            <ProductInterestSelect
-              value={form.productoInteres}
-              onChange={v => set('productoInteres', v)}
-            />
+            <ProductInterestMultiSelect onChange={v => set('productoInteres', v)} />
 
             {/* Tipo empresa — opcional */}
             <div>
