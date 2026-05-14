@@ -31,7 +31,7 @@ export const prizes = [
     color: '#D97706',
     instruction: 'Acércate a la recepción del stand y muestra este resultado para reclamarlo.',
     crmTag: 'premio_balon',
-    probability: 30,
+    probability: 20,
   },
   {
     id: 'obsequio_sorpresa',
@@ -41,7 +41,7 @@ export const prizes = [
     color: '#1A56DB',
     instruction: 'Nuestro equipo te entregará tu obsequio sorpresa en el stand.',
     crmTag: 'premio_obsequio_sorpresa',
-    probability: 25,
+    probability: 30,
   },
   {
     id: 'muestra_conti_instantaneo',
@@ -62,7 +62,7 @@ export const prizes = [
     instruction: 'Puedes acercarte al equipo Continental para conocer nuestras soluciones.',
     crmTag: 'sin_premio_sigue_intentando',
     isRetry: true,
-    probability: 1,
+    probability: 6,
   },
 ]
 
