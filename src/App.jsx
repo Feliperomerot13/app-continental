@@ -2,7 +2,6 @@ import { useState, useCallback, useRef } from 'react'
 import { useInactivity } from './hooks/useInactivity.js'
 import { useLeads } from './hooks/useLeads.js'
 import { getRecommendation, questions } from './data/quizData.js'
-import { selectPrize } from './data/prizes.js'
 
 // Shared
 import InactivityWarning from './components/InactivityWarning.jsx'
@@ -80,7 +79,8 @@ export default function App() {
   const goHome = () => setScreen('home')
 
   const handleNavigate = (dest) => {
-    if (dest === 'roulette-intro') setScreen('roulette-intro')
+    if (dest === 'registration') setScreen('registration')
+    else if (dest === 'roulette-intro') setScreen('roulette-intro')
     else if (dest === 'quiz-intro') { setQuizStep(0); setQuizAnswers({}); setRecommendation(null); setScreen('quiz-intro') }
     else if (dest === 'catalog')   setScreen('catalog-home')
     else if (dest === 'brochure')  setScreen('brochure')
@@ -96,18 +96,14 @@ export default function App() {
 
   // ── Módulo 1: Ruleta ──────────────────────────────────────────────────────
   const handleRegSubmit = (formData) => {
-    const p = selectPrize()
-    setPrize(p)
-    // El registro se guarda al aterrizar en prize screen (cuando se confirma el premio)
     addLead({
       ...formData,
-      modulo: 'ruleta',
+      modulo: 'registro',
       productoRecomendado: '',
       productoAlterno: '',
-      premio: p.label,
-      tags: ['lead_ruleta'],
+      premio: '',
+      tags: ['gran_salon_ferretero'],
     })
-    setScreen('roulette')
   }
 
   const handlePrizeWon = (p) => {
@@ -202,7 +198,7 @@ export default function App() {
       case 'roulette-intro':
         return <RouletteIntro onStart={() => setScreen('registration')} onBack={goHome} />
       case 'registration':
-        return <RegistrationForm onSubmit={handleRegSubmit} onBack={() => setScreen('roulette-intro')} />
+        return <RegistrationForm onSubmit={handleRegSubmit} onBack={goHome} />
       case 'roulette':
         return <RouletteScreen prizeToWin={prize} onPrize={handlePrizeWon} onBack={goHome} />
       case 'prize':

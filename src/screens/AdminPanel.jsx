@@ -6,7 +6,7 @@ export default function AdminPanel({ leads, stats, storage, onUnlock, onRefresh,
   const [tab, setTab] = useState('leads')
   const [pin, setPin] = useState('')
 
-  const moduleLabel = m => ({ ruleta:'🎡 Ruleta', recomendador:'🔍 Recomendador', catalogo:'📚 Catálogo', asesoria:'💬 Asesoría' })[m] || m || '—'
+  const moduleLabel = m => ({ registro:'📝 Registro', ruleta:'🎡 Ruleta', recomendador:'🔍 Recomendador', catalogo:'📚 Catálogo', asesoria:'💬 Asesoría' })[m] || m || '—'
   const locked = storage?.needsAdminPin && !storage?.adminUnlocked
 
   const handleUnlock = async (e) => {
@@ -87,9 +87,10 @@ export default function AdminPanel({ leads, stats, storage, onUnlock, onRefresh,
       )}
 
       {/* Stats bar */}
-      {!locked && <div className="shrink-0 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 bg-gray-900 border-b border-gray-800">
+      {!locked && <div className="shrink-0 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 bg-gray-900 border-b border-gray-800">
         {[
           { label: 'Total registros', val: stats.total,        color: 'text-white' },
+          { label: 'Gran Salón Ferretero', val: stats.registro, color: 'text-cyan-400' },
           { label: 'Vía ruleta',      val: stats.ruleta,       color: 'text-yellow-400' },
           { label: 'Vía recomendador',val: stats.recomendador, color: 'text-blue-400' },
           { label: 'Vía catálogo',    val: stats.catalogo,     color: 'text-green-400' },

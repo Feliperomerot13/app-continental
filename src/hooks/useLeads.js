@@ -209,6 +209,7 @@ export function useLeads() {
 
   const stats = useMemo(() => ({
     total:        leads.length,
+    registro:     leads.filter(l => l.modulo === 'registro').length,
     ruleta:       leads.filter(l => l.modulo === 'ruleta').length,
     recomendador: leads.filter(l => l.modulo === 'recomendador').length,
     catalogo:     leads.filter(l => l.modulo === 'catalogo').length,

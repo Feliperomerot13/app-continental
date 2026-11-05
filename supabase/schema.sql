@@ -7,7 +7,7 @@ create table if not exists public.leads (
   id uuid primary key default gen_random_uuid(),
   created_at timestamptz not null default now(),
 
-  modulo text not null check (modulo in ('ruleta', 'recomendador', 'catalogo', 'asesoria')),
+  modulo text not null check (modulo in ('registro', 'ruleta', 'recomendador', 'catalogo', 'asesoria')),
 
   nombre text,
   empresa text,
@@ -36,6 +36,10 @@ create table if not exists public.leads (
   payload jsonb not null default '{}'::jsonb
 );
 
+alter table public.leads drop constraint if exists leads_modulo_check;
+alter table public.leads add constraint leads_modulo_check
+  check (modulo in ('registro', 'ruleta', 'recomendador', 'catalogo', 'asesoria'));
+
 create index if not exists leads_created_at_idx on public.leads (created_at desc);
 create index if not exists leads_modulo_idx on public.leads (modulo);
 create index if not exists leads_premio_idx on public.leads (premio);
@@ -48,12 +52,14 @@ alter table public.leads enable row level security;
 --
 -- Esta política permite que, si se configura VITE_SUPABASE_URL + VITE_SUPABASE_ANON_KEY
 -- para desarrollo local sin Vercel API, el navegador pueda insertar registros.
+drop policy if exists "anon can insert leads" on public.leads;
 create policy "anon can insert leads"
 on public.leads
 for insert
 to anon
 with check (true);
 
+drop policy if exists "authenticated can insert leads" on public.leads;
 create policy "authenticated can insert leads"
 on public.leads
 for insert
